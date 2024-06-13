@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1EAD85652C12665B0070253F /* nemo.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1EAD85642C1266570070253F /* nemo.png */; };
-		1EAD85672C126A570070253F /* dory.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1EAD85662C126A510070253F /* dory.png */; };
+		1E0157802C18DA4700A01230 /* dory.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1EAD85662C126A510070253F /* dory.png */; };
+		1E0157812C18DA4900A01230 /* nemo.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1EAD85642C1266570070253F /* nemo.png */; };
+		1E0157822C18DA4C00A01230 /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1EFB84E62C12248A007F8329 /* shaders */; };
 		1EFB84DF2C122479007F8329 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB84DE2C122479007F8329 /* main.cpp */; };
 		1EFB84EA2C12248B007F8329 /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB84E82C12248A007F8329 /* ShaderProgram.cpp */; };
 		1EFB84ED2C1224BF007F8329 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EFB84EC2C1224BF007F8329 /* OpenGL.framework */; };
@@ -16,7 +17,6 @@
 		1EFB84F32C1224CF007F8329 /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EFB84F02C1224CF007F8329 /* SDL2_mixer.framework */; };
 		1EFB84F42C1224CF007F8329 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EFB84F12C1224CF007F8329 /* SDL2.framework */; };
 		1EFB84F52C1224CF007F8329 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EFB84F22C1224CF007F8329 /* SDL2_image.framework */; };
-		1EFB84F62C1224D8007F8329 /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1EFB84E62C12248A007F8329 /* shaders */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,9 +26,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				1EFB84F62C1224D8007F8329 /* shaders in CopyFiles */,
-				1EAD85652C12665B0070253F /* nemo.png in CopyFiles */,
-				1EAD85672C126A570070253F /* dory.png in CopyFiles */,
+				1E0157822C18DA4C00A01230 /* shaders in CopyFiles */,
+				1E0157802C18DA4700A01230 /* dory.png in CopyFiles */,
+				1E0157812C18DA4900A01230 /* nemo.png in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};

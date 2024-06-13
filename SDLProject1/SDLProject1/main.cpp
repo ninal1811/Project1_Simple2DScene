@@ -48,14 +48,13 @@ constexpr GLint NUMBER_OF_TEXTURES = 1,
                 LEVEL_OF_DETAIL = 0,
                 TEXTURE_BORDER = 0;
 
-//object img src
 constexpr char NEMO_SPRITE_FILEPATH[] = "nemo.png",
                DORY_SPRITE_FILEPATH[] = "dory.png";
 
 constexpr glm::vec3 INIT_SCALE_NEMO = glm::vec3(0.948f, 0.712f, 0.0f),
                     INIT_SCALE_DORY = glm::vec3(2.00f, 1.61f, 0.0f),
-                    INIT_POS_NEMO = glm::vec3(-2.0f, 0.0f, 0.0f),
-                    INIT_POS_DORY = glm::vec3(1.0f, 3.0f, 0.0f);
+                    INIT_POS_NEMO = glm::vec3(-2.5f, 0.0f, 0.0f),
+                    INIT_POS_DORY = glm::vec3(1.0f, 2.0f, 0.0f);
 
 SDL_Window* g_display_window;
 AppStatus g_app_status = RUNNING;
@@ -75,12 +74,12 @@ glm::vec3 nemo_position = INIT_POS_NEMO;
 glm::vec3 dory_position = INIT_POS_DORY;
 
 float g_previous_ticks = 0.0f;
-float SPEED = 1.0f;
-constexpr int SCALE_LIMIT = 15;
+float g_dory_rotation_angle = 0.0f;
+constexpr int SCALE_LIMIT = 50;
 int g_frame_counter = 0;
 bool g_ScaleDirection = true;
-constexpr float GROWTH_FACTOR = 1.01f;
-constexpr float SHRINK_FACTOR = 0.99f;
+constexpr float GROWTH_FACTOR = 1.0f;
+constexpr float SHRINK_FACTOR = 0.75f;
 
 GLuint load_texture(const char* filepath) {
     int width, height, number_of_components;
@@ -107,8 +106,7 @@ GLuint load_texture(const char* filepath) {
 
 void initialise() {
     SDL_Init(SDL_INIT_VIDEO);
-    g_display_window = SDL_CreateWindow("Project 1: Simple 2D Scene",
-                                        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+    g_display_window = SDL_CreateWindow("Project 1: Simple 2D Scene", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                         WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
 
     SDL_GLContext context = SDL_GL_CreateContext(g_display_window);
@@ -154,25 +152,13 @@ void update() {
     float ticks = SDL_GetTicks() / MILLISECONDS_IN_SECOND;
     float delta_time = ticks - g_previous_ticks;
     g_previous_ticks = ticks;
-   
-    float WAVE_OFFSET = glm::sin(ticks) * 0.5f;
-   
-//    game logic
-    nemo_position.x += SPEED * delta_time;
-    nemo_position.y += WAVE_OFFSET * delta_time;
-    dory_position.y += WAVE_OFFSET * delta_time;
-   
-    if (nemo_position.x > 2.0f || nemo_position.x < -2.0f) {
-        SPEED = -SPEED;
-        g_rotation_nemo.y += glm::radians(180.0f);
-    }
-   
+
+    nemo_position.x += 1.5 * glm::sin(g_previous_ticks) * delta_time;
+    nemo_position.y += 1.5 * glm::cos(g_previous_ticks) * delta_time;
+    
     g_nemo_matrix = glm::mat4(1.0f);
-    g_dory_matrix = glm::mat4(1.0f);
-   
-//    transformation : rotation, translation, scaling
     g_nemo_matrix = glm::translate(g_nemo_matrix, nemo_position);
-    g_nemo_matrix = glm::rotate(g_nemo_matrix, g_rotation_nemo.y, glm::vec3(0.0f, 1.0f, 0.0f));
+    g_nemo_matrix = glm::scale(g_nemo_matrix, INIT_SCALE_NEMO);
     
     g_frame_counter++;
     if (g_frame_counter >= SCALE_LIMIT) {
@@ -185,10 +171,17 @@ void update() {
                                        1.0f);
     
     g_nemo_matrix = glm::scale(g_nemo_matrix, SCALE_FACTOR);
-   
+    
+    g_dory_matrix = glm::mat4(1.0f);
     g_dory_matrix = glm::translate(g_nemo_matrix, dory_position);
+    
+    g_dory_rotation_angle += 90.0f * delta_time;
+    if (g_dory_rotation_angle >= 360.0f) {
+        g_dory_rotation_angle = 0.0f;
+    }
+    
+    g_dory_matrix = glm::rotate(g_dory_matrix, glm::radians(g_dory_rotation_angle), glm::vec3(1.0f, 0.0f, 0.0f));
     g_dory_matrix = glm::scale(g_dory_matrix, INIT_SCALE_DORY);
-
 }
 
 void draw_object(glm::mat4 &object_g_model_matrix, GLuint &object_texture_id) {
@@ -206,7 +199,6 @@ void render() {
         -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, 0.5f
     };
    
-//    texture
     float texture_coordinates[] =
     {
         0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
